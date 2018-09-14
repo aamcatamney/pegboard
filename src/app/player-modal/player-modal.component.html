@@ -1,0 +1,40 @@
+<form (ngSubmit)="onSubmit()" #playerForm="ngForm">
+  <div class="modal-header">
+    <h3 *ngIf="!editMode" class="modal-title">Add Player</h3>
+    <h3 *ngIf="editMode" class="modal-title">Edit Player</h3>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input #name id="name" name="name" type="text" class="form-control" required [(ngModel)]="player.name">
+    </div>
+    <div class="form-group">
+      <label>Gender</label>
+      <div>
+        <div *ngFor="let item of genders" class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="gender" [value]="item.value" [(ngModel)]="player.gender"
+              required>
+            {{item.label}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Level</label>
+      <div>
+        <div *ngFor="let item of levels" class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="level" [value]="item.value" [(ngModel)]="player.level"
+              required>
+            {{item.label}}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" [disabled]="!playerForm.form.valid" type="submit">Save</button>
+    <button class="btn btn-warning" (click)="close()">Close</button>
+  </div>
+</form>

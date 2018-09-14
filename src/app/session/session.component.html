@@ -1,0 +1,25 @@
+<div class="row">
+  <div *ngIf="sessionService.haveSession" class="col-2">
+    <h2>
+      <app-timer [start]="session.started"></app-timer>
+    </h2>
+  </div>
+  <div class="col">
+    <button *ngIf="!sessionService.haveSession" type="button" class="btn btn-primary" (click)="sessionService.startSession()">Start
+      Session!</button>
+    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-secondary mr-1" (click)="addPlayers()">Add
+      Players</button>
+    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-secondary mr-1" (click)="addCourt()">Add
+      Court</button>
+    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-danger mr-1" (click)="finished()">Finished!</button>
+  </div>
+</div>
+
+<div *ngIf="sessionService.haveSession" class="row">
+  <div *ngIf="session.players.length > 0" class="col">
+    <h4>Waiting</h4>
+    <ul class="list-group">
+      <li *ngFor="let sp of session.players" class="list-group-item">{{sp.player.name}}</li>
+    </ul>
+  </div>
+</div>

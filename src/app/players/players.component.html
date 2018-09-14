@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col">
+    <button type="button" class="btn btn-primary" (click)="addPlayer()">Add Player</button>
+    <button *ngIf="showTestData" type="button" class="btn btn-info ml-1" (click)="testData()">Test Data</button>
+  </div>
+</div>
+
+<div *ngIf="playersService.anyPlayers" class="row mt-1">
+  <div class="col">
+    <table class="table table-bordered">
+      <thead>
+        <tr class="table-active">
+          <th>Name</th>
+          <th class="text-center">Gender</th>
+          <th>Level</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of playersService.players | async">
+          <td class="align-middle">{{p.name}}</td>
+          <td class="small-col text-center align-middle" [class.table-danger]="p.gender === 2" [class.table-primary]="p.gender === 1">
+            <fa-icon *ngIf="p.gender === 2" [icon]="faVenus"></fa-icon>
+            <fa-icon *ngIf="p.gender === 1" [icon]="faMars"></fa-icon>
+          </td>
+          <td class="align-middle">
+            <ngb-progressbar type="info" [value]="p.level" [max]="5"></ngb-progressbar>
+          </td>
+          <td class="small-col text-center align-middle text-nowrap">
+            <button class="btn btn-sm btn-secondary" (click)="editPlayer(p)">
+              <fa-icon [icon]="faPen"></fa-icon>
+            </button>
+            <button class="btn btn-sm btn-danger ml-1" (click)="deletePlayer(p)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
