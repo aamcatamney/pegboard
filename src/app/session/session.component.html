@@ -7,6 +7,8 @@
   <div class="col">
     <button *ngIf="!sessionService.haveSession" type="button" class="btn btn-primary" (click)="sessionService.startSession()">Start
       Session!</button>
+    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-primary mr-1" (click)="startGame()">Start
+      Game</button>
     <button *ngIf="sessionService.haveSession" type="button" class="btn btn-secondary mr-1" (click)="addPlayers()">Add
       Players</button>
     <button *ngIf="sessionService.haveSession" type="button" class="btn btn-secondary mr-1" (click)="addCourt()">Add
@@ -19,7 +21,52 @@
   <div *ngIf="session.players.length > 0" class="col">
     <h4>Waiting</h4>
     <ul class="list-group">
-      <li *ngFor="let sp of session.players" class="list-group-item">{{sp.player.name}}</li>
+      <li *ngFor="let sp of session.players | playing" class="list-group-item d-flex justify-content-between align-items-center"
+        [class.list-group-item-primary]="sp.player.gender === 1" [class.list-group-item-danger]="sp.player.gender === 2"
+        (click)="addPlayerToStaging(sp)" [class.clickable]="stagingAway.length < 2 || stagingHome.length < 2">
+        <div>
+          <strong class="mr-1">{{sp.player.name}}</strong>
+          <app-timer [start]="sp.lastPlayed || sp.arrived"></app-timer>
+        </div>
+        <span class="badge badge-primary badge-pill">{{sp.played}}</span>
+      </li>
     </ul>
   </div>
-</div>
+  <div *ngIf="session.courts.length > 0" class="col">
+    <h4>Courts</h4>
+    <div>
+      <table *ngIf="stagingHome.length > 0" class="table table-condensed table-bordered table-warning">
+        <thead>
+          <tr>
+            <th>Staging Game</th>
+            <th>1</th>
+            <th>2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Home</th>
+            <td *ngFor="let p of stagingHome" [class.table-danger]="p.player.gender === 2" [class.table-primary]="p.player.gender === 1"
+              class="clickable" (click)="stagingHomePlayerClick(p)">{{p.player.name}}</td>
+          </tr>
+          <tr>
+            <th>Away</th>
+            <td *ngFor="let p of stagingAway" [class.table-danger]="p.player.gender === 2" [class.table-primary]="p.player.gender === 1"
+              class="clickable" (click)="stagingAwayPlayerClick(p)">{{p.player.name}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-center">
+              <button class="btn btn-primary mr-1" [disabled]="!((stagingHome.length === 1 && stagingAway.length === 1) || (stagingHome.length === 2 && stagingAway.length === 2))"
+                (click)="startStaging()">Start</button>
+              <button class="btn btn-danger" (click)="cancelStaging()">Cancel</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div>
+        <app-court *ngFor="let c of session.courts" [court]="c"></app-court>
+      </div>
+    </div>
+  </div>

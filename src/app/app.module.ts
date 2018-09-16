@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TimerComponent } from './timer/timer.component';
 import { AddPlayerModalComponent } from './add-player-modal/add-player-modal.component';
+import { CourtComponent } from './court/court.component';
+import { PlayingPipe } from './playing.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { AddPlayerModalComponent } from './add-player-modal/add-player-modal.com
     PlayerModalComponent,
     SessionComponent,
     TimerComponent,
-    AddPlayerModalComponent
+    AddPlayerModalComponent,
+    CourtComponent,
+    PlayingPipe
   ],
   entryComponents: [PlayerModalComponent, AddPlayerModalComponent],
   imports: [

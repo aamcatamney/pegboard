@@ -3,7 +3,8 @@
 </div>
 <div class="modal-body">
   <ul class="list-group">
-    <li class="list-group-item clickable" *ngFor="let p of players" (click)="addPlayer(p)">{{p.name}}</li>
+    <li class="list-group-item clickable" *ngFor="let p of players" [class.list-group-item-primary]="p.gender === 1"
+      [class.list-group-item-danger]="p.gender === 2" (click)="addPlayer(p)">{{p.name}}</li>
   </ul>
 </div>
 <div class="modal-footer">

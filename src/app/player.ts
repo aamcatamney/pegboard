@@ -5,6 +5,6 @@ export class Player {
   level: number;
 
   constructor() {
-    this.id = new Date().getUTCSeconds();
+    this.id = new Date().getTime() * 10000 + 621355968000000000;
   }
 }

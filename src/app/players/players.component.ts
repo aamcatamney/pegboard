@@ -12,6 +12,8 @@ import {
   faPen
 } from '@fortawesome/free-solid-svg-icons';
 import { environment } from 'src/environments/environment';
+import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-players',
@@ -49,13 +51,16 @@ export class PlayersComponent implements OnInit {
   }
 
   testData() {
-    for (let index = 1; index < 26; index++) {
-      const player = new Player();
-      player.name = `PLayer ${index}`;
-      player.level = random(1, 5, false);
-      player.gender = random(1, 2, false);
-      this.playersService.addPlayer(player);
-    }
+    interval(50)
+      .pipe(take(25))
+      .subscribe(() => {
+        const player = new Player();
+        player.name = `Player ${this.playersService.players.getValue().length +
+          1}`;
+        player.level = random(1, 5, false);
+        player.gender = random(1, 2, false);
+        this.playersService.addPlayer(player);
+      });
   }
 
   deletePlayer(player: Player) {

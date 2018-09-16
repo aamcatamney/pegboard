@@ -4,6 +4,8 @@ import { Session } from 'src/app/session';
 import { Player } from './player';
 import { SessionPlayer } from './session-player';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Court } from './court';
+import { Game } from './game';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +53,48 @@ export class SessionService {
     sp.played = 0;
     sp.playing = false;
     this._currentSession.players.push(sp);
+    this.setAndCheck();
+  }
+
+  addCourt() {
+    this._currentSession.courts.push({
+      number: this._currentSession.courts.length + 1
+    });
+    this.setAndCheck();
+  }
+
+  removeCourt(court: Court) {
+    this._currentSession.courts.splice(
+      this._currentSession.courts.indexOf(court),
+      1
+    );
+    this.setAndCheck();
+  }
+
+  startGame(game: Game) {
+    this._currentSession.courts.filter(c => !c.game)[0].game = game;
+    this.setAndCheck();
+  }
+
+  finishGame(court: Court) {
+    court.game.finished = new Date().toUTCString();
+    court.game.homeTeam.forEach(p => {
+      const player = this._currentSession.players.find(
+        pp => pp.player.id === p.player.id
+      );
+      player.lastPlayed = new Date().toISOString();
+      player.played++;
+      player.playing = false;
+    });
+    court.game.awayTeam.forEach(p => {
+      const player = this._currentSession.players.find(
+        pp => pp.player.id === p.player.id
+      );
+      player.lastPlayed = new Date().toISOString();
+      player.played++;
+      player.playing = false;
+    });
+    court.game = null;
     this.setAndCheck();
   }
 }

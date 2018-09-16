@@ -24,16 +24,11 @@ export class AddPlayerModalComponent implements OnInit {
     combineLatest(
       this.playersService.players,
       this.sessionService.currentSession
-    ).subscribe(
-      val => {
-        this.players = val[0].filter(p => {
-          return !val[1].players.some(sp => {
-            return sp.player.id === p.id;
-          });
-        });
-      },
-      e => console.error(e)
-    );
+    ).subscribe(val => {
+      this.players = val[0].filter(
+        p => !val[1].players.some(sp => sp.player.id === p.id)
+      );
+    });
   }
 
   addPlayer(p: Player) {

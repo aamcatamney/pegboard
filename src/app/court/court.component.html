@@ -1,0 +1,29 @@
+<div class="card mb-3" [class.bg-success]="court.game" [class.text-white]="court.game" [class.bg-light]="!court.game">
+  <div class="card-header">Court {{court.number}}</div>
+  <div class="card-body">
+    <table *ngIf="court.game" class="table table-condensed table-bordered">
+      <thead>
+        <tr>
+          <th>
+            <app-timer [start]="court.game.started"></app-timer>
+          </th>
+          <th>1</th>
+          <th *ngIf="court.game.homeTeam.length > 1">2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Home</th>
+          <td *ngFor="let p of court.game.homeTeam" class="text-dark" [class.table-danger]="p.player.gender === 2"
+            [class.table-primary]="p.player.gender === 1">{{p.player.name}}</td>
+        </tr>
+        <tr>
+          <th>Away</th>
+          <td *ngFor="let p of court.game.awayTeam" class="text-dark" [class.table-danger]="p.player.gender === 2"
+            [class.table-primary]="p.player.gender === 1">{{p.player.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button *ngIf="court.game" class="btn btn-secondary text-center" (click)="finishGame()">Done</button>
+  </div>
+</div>
