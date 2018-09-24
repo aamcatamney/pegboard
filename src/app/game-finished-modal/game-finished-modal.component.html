@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h3 class="modal-title">Game Finished</h3>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col">
+      <div class="card clickable" (click)="finishGame(true)" (mouseenter)="homeOver = true" (mouseleave)="homeOver = false"
+        [class.bg-success]="homeOver" [class.text-white]="homeOver">
+        <div class="card-header">Won by Home?</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let p of court.game.homeTeam" [class.list-group-item-primary]="p.player.gender === 1"
+            [class.list-group-item-danger]="p.player.gender === 2">{{p.player.name}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card clickable" (click)="finishGame(false)" (mouseenter)="awayOver = true" (mouseleave)="awayOver = false"
+        [class.bg-success]="awayOver" [class.text-white]="awayOver">
+        <div class="card-header">Won by Away?</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let p of court.game.awayTeam" [class.list-group-item-primary]="p.player.gender === 1"
+            [class.list-group-item-danger]="p.player.gender === 2">{{p.player.name}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" (click)="close()">Close</button>
+</div>

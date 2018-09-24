@@ -3,9 +3,9 @@ import { SessionService } from '../session.service';
 import { Session } from 'src/app/session';
 import { AddPlayerModalComponent } from '../add-player-modal/add-player-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { range } from 'lodash';
 import { SessionPlayer } from '../session-player';
 import { Game } from '../game';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-session',
@@ -16,6 +16,9 @@ export class SessionComponent implements OnInit {
   session: Session;
   stagingHome: SessionPlayer[] = [];
   stagingAway: SessionPlayer[] = [];
+  canStart = false;
+  canFinish = false;
+  faSignOutAlt = faSignOutAlt;
 
   constructor(
     public sessionService: SessionService,
@@ -23,8 +26,14 @@ export class SessionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.sessionService.currentSession.subscribe(cs => (this.session = cs));
-    console.log(this.session);
+    this.sessionService.currentSession.subscribe(cs => {
+      this.session = cs;
+      this.canStart =
+        cs &&
+        cs.courts.some(c => !c.game) &&
+        cs.players.filter(p => !p.playing).length > 1;
+      this.canFinish = cs && !cs.players.some(p => p.playing);
+    });
   }
 
   addCourt() {
@@ -36,7 +45,15 @@ export class SessionComponent implements OnInit {
     mi.result.then(() => {}, () => {});
   }
 
-  startGame() {}
+  removePlayer(sp: SessionPlayer) {
+    if (confirm(`${sp.player.name} leaving?`)) {
+      this.sessionService.removePlayer(sp.player.id, true);
+    }
+  }
+
+  startGame() {
+    this.sessionService.pickGame();
+  }
 
   addPlayerToStaging(player: SessionPlayer) {
     if (this.stagingHome.length <= 1) {
@@ -77,7 +94,6 @@ export class SessionComponent implements OnInit {
     const g = new Game();
     g.homeTeam = this.stagingHome.splice(0, this.stagingHome.length);
     g.awayTeam = this.stagingAway.splice(0, this.stagingAway.length);
-    g.started = new Date().toISOString();
     this.sessionService.startGame(g);
   }
 

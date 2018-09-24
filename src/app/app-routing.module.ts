@@ -6,7 +6,7 @@ import { SessionComponent } from './session/session.component';
 const routes: Routes = [
   { path: 'players', component: PlayersComponent },
   { path: 'session', component: SessionComponent },
-  { path: '**', redirectTo: 'players' }
+  { path: '**', redirectTo: 'session' }
 ];
 
 @NgModule({

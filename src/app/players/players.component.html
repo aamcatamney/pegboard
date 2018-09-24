@@ -13,6 +13,8 @@
           <th>Name</th>
           <th class="text-center">Gender</th>
           <th>Level</th>
+          <th class="text-center">Played</th>
+          <th class="text-center">Sessions</th>
           <th></th>
         </tr>
       </thead>
@@ -26,6 +28,8 @@
           <td class="align-middle">
             <ngb-progressbar type="info" [value]="p.level" [max]="5"></ngb-progressbar>
           </td>
+          <td class="align-middle text-center ">{{p.totalWon}} / {{p.totalPlayed}}</td>
+          <td class="align-middle text-center ">{{p.totalSessions}}</td>
           <td class="small-col text-center align-middle text-nowrap">
             <button class="btn btn-sm btn-secondary" (click)="editPlayer(p)">
               <fa-icon [icon]="faPen"></fa-icon>

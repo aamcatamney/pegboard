@@ -7,13 +7,15 @@
   <div class="col">
     <button *ngIf="!sessionService.haveSession" type="button" class="btn btn-primary" (click)="sessionService.startSession()">Start
       Session!</button>
-    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-primary mr-1" (click)="startGame()">Start
+    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-primary mr-1" [disabled]="!canStart || stagingHome.length > 0 || stagingAway.length > 0"
+      (click)="startGame()">Pick
       Game</button>
     <button *ngIf="sessionService.haveSession" type="button" class="btn btn-secondary mr-1" (click)="addPlayers()">Add
       Players</button>
     <button *ngIf="sessionService.haveSession" type="button" class="btn btn-secondary mr-1" (click)="addCourt()">Add
       Court</button>
-    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-danger mr-1" (click)="finished()">Finished!</button>
+    <button *ngIf="sessionService.haveSession" type="button" class="btn btn-danger mr-1" [disabled]="!canFinish"
+      (click)="finished()">Finished!</button>
   </div>
 </div>
 
@@ -21,14 +23,20 @@
   <div *ngIf="session.players.length > 0" class="col">
     <h4>Waiting</h4>
     <ul class="list-group">
-      <li *ngFor="let sp of session.players | playing" class="list-group-item d-flex justify-content-between align-items-center"
-        [class.list-group-item-primary]="sp.player.gender === 1" [class.list-group-item-danger]="sp.player.gender === 2"
-        (click)="addPlayerToStaging(sp)" [class.clickable]="stagingAway.length < 2 || stagingHome.length < 2">
-        <div>
+      <li *ngFor="let sp of session.players | playing; let i = index" class="list-group-item d-flex justify-content-between align-items-center"
+        [class.list-group-item-primary]="sp.player.gender === 1" [class.list-group-item-danger]="sp.player.gender === 2">
+        <div [class.clickable]="(stagingAway.length < 2 || stagingHome.length < 2) && (stagingHome.length > 0 || i === 0)"
+          (click)="(stagingHome.length > 0 || i === 0) && addPlayerToStaging(sp)">
           <strong class="mr-1">{{sp.player.name}}</strong>
           <app-timer [start]="sp.lastPlayed || sp.arrived"></app-timer>
         </div>
-        <span class="badge badge-primary badge-pill">{{sp.played}}</span>
+        <div>
+          <span class="badge badge-pill" [class.badge-success]="sp.played > 0 && sp.played === sp.won"
+            [class.badge-primary]="sp.played === 0 || sp.played !== sp.won">{{sp.won}} / {{sp.played}}</span>
+          <button class="btn btn-danger btn-sm ml-1" (click)="removePlayer(sp)">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>
+          </button>
+        </div>
       </li>
     </ul>
   </div>
@@ -66,7 +74,7 @@
         </tfoot>
       </table>
       <div>
-        <app-court *ngFor="let c of session.courts" [court]="c"></app-court>
+        <app-court *ngFor="let c of session.courts; let i = index" [court]="c" [showDelete]="i === session.courts.length - 1 && !c.game"></app-court>
       </div>
     </div>
   </div>

@@ -4,6 +4,10 @@ export class SessionPlayer {
   player: Player;
   arrived: string;
   played: number;
-  lastPlayed?: string;
+  won: number;
+  lastPlayed: string;
+  lastWon: string;
   playing: boolean;
+  partners: string[];
+  against: string[];
 }

@@ -13,6 +13,7 @@ import { TimerComponent } from './timer/timer.component';
 import { AddPlayerModalComponent } from './add-player-modal/add-player-modal.component';
 import { CourtComponent } from './court/court.component';
 import { PlayingPipe } from './playing.pipe';
+import { GameFinishedModalComponent } from './game-finished-modal/game-finished-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,14 @@ import { PlayingPipe } from './playing.pipe';
     TimerComponent,
     AddPlayerModalComponent,
     CourtComponent,
-    PlayingPipe
+    PlayingPipe,
+    GameFinishedModalComponent
   ],
-  entryComponents: [PlayerModalComponent, AddPlayerModalComponent],
+  entryComponents: [
+    PlayerModalComponent,
+    AddPlayerModalComponent,
+    GameFinishedModalComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,

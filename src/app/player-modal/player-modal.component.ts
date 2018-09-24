@@ -50,6 +50,9 @@ export class PlayerModalComponent implements OnInit, AfterViewInit {
         .findIndex(p => p.id === this.player.id);
       this.playersService.updatePlayer(index, this.player);
     } else {
+      this.player.totalPlayed = 0;
+      this.player.totalWon = 0;
+      this.player.totalSessions = 0;
       this.playersService.addPlayer(this.player);
     }
     this.activeModal.close();

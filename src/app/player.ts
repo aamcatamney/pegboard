@@ -1,10 +1,9 @@
 export class Player {
-  id: number;
+  id: string;
   name: string;
   gender: number;
   level: number;
-
-  constructor() {
-    this.id = new Date().getTime() * 10000 + 621355968000000000;
-  }
+  totalPlayed: number;
+  totalWon: number;
+  totalSessions: number;
 }

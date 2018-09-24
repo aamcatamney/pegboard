@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Court } from '../court';
 import { SessionService } from '../session.service';
+import { faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GameFinishedModalComponent } from '../game-finished-modal/game-finished-modal.component';
 
 @Component({
   selector: 'app-court',
@@ -11,11 +14,26 @@ export class CourtComponent implements OnInit {
   @Input()
   court: Court;
 
-  constructor(private sessionService: SessionService) {}
+  @Input()
+  showDelete = false;
+
+  faTrash = faTrash;
+  faCheck = faCheck;
+
+  constructor(
+    private sessionService: SessionService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {}
 
   finishGame() {
-    this.sessionService.finishGame(this.court);
+    const mi = this.modalService.open(GameFinishedModalComponent);
+    mi.componentInstance.court = this.court;
+    mi.result.then(() => {}, () => {});
+  }
+
+  removeCourt() {
+    this.sessionService.removeCourt(this.court);
   }
 }

@@ -1,6 +1,15 @@
-<div class="card mb-3" [class.bg-success]="court.game" [class.text-white]="court.game" [class.bg-light]="!court.game">
-  <div class="card-header">Court {{court.number}}</div>
-  <div class="card-body">
+<div class="card mb-3 p-0" [class.bg-success]="court.game" [class.text-white]="court.game" [class.bg-light]="!court.game">
+  <div class="card-header p-2">
+    <span class="align-middle">Court {{court.number}}</span>
+    <button *ngIf="showDelete" class="btn btn-danger btn-sm float-right" (click)="removeCourt()">
+      <fa-icon [icon]="faTrash"></fa-icon>
+    </button>
+    <button *ngIf="court.game" class="btn btn-primary btn-sm float-right" (click)="finishGame()">
+      <fa-icon [icon]="faCheck"></fa-icon>
+    </button>
+  </div>
+  <div class="card-body p-1">
+    <h3 *ngIf="!court.game">Empty!</h3>
     <table *ngIf="court.game" class="table table-condensed table-bordered">
       <thead>
         <tr>
@@ -24,6 +33,5 @@
         </tr>
       </tbody>
     </table>
-    <button *ngIf="court.game" class="btn btn-secondary text-center" (click)="finishGame()">Done</button>
   </div>
 </div>
