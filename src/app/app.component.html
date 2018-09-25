@@ -1,15 +1,9 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">Pegboard</a>
-
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/session']" routerLinkActive="active">Session</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/players']" routerLinkActive="active">Players</a>
-    </li>
-  </ul>
-
+<nav class="navbar navbar-dark bg-dark fixed-top">
+  <div>
+    <a class="navbar-brand" href="#">Pegboard</a>
+    <a class="btn btn-outline-light" [routerLink]="['/session']" routerLinkActive="active">Session</a>
+    <a class="btn btn-outline-light ml-1" [routerLink]="['/players']" routerLinkActive="active">Players</a>
+  </div>
 </nav>
 
 <main role="main" class="container-fluid">
