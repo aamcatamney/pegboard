@@ -10,6 +10,8 @@ import { Court } from '../court';
 })
 export class GameFinishedModalComponent implements OnInit {
   public court: Court;
+  homeOver = false;
+  awayOver = false;
 
   constructor(
     private activeModal: NgbActiveModal,
