@@ -41,7 +41,7 @@ export class SessionService {
 
   startSession() {
     this._currentSession = new Session();
-    this.setAndCheck();
+    this.addCourt();
   }
 
   finishSession() {
